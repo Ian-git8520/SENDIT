@@ -20,3 +20,13 @@ const DeliveryTruck = ({ className = "" }: { className?: string }) => (
     <circle cx="82" cy="50" r="8" fill="currentColor" opacity="0.2" />
   </svg>
 )
+
+const DeliveryCar = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 60 35" fill="none" className={className}>
+    <path d="M8 18 L15 10 L45 10 L52 18 L55 18 L55 25 L5 25 L5 18 Z" fill="currentColor" opacity="0.12" />
+    <rect x="18" y="12" width="10" height="8" rx="1" fill="currentColor" opacity="0.08" />
+    <rect x="32" y="12" width="10" height="8" rx="1" fill="currentColor" opacity="0.08" />
+    <circle cx="15" cy="28" r="5" fill="currentColor" opacity="0.2" />
+    <circle cx="45" cy="28" r="5" fill="currentColor" opacity="0.2" />
+  </svg>
+)
