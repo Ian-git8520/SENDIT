@@ -36,3 +36,13 @@
   left: 60%;
   animation-delay: 2s;
 }
+
+
+.shape3 {
+  width: 100px;
+  height: 100px;
+  background: #00e5ff;
+  top: 40%;
+  left: 80%;
+  animation-delay: 4s;
+}
