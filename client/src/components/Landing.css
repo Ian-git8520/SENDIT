@@ -8,3 +8,11 @@
   position: relative;
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   font-family: "Arial", sans-serif;
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: float 6s ease-in-out infinite;
+}
