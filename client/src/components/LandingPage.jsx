@@ -24,3 +24,12 @@ const Landing = () => {
           </Link>
         </div>
       </div>
+
+
+       {/* Floating decorative shapes */}
+      <div className="floating-shape shape1"></div>
+      <div className="floating-shape shape2"></div>
+      <div className="floating-shape shape3"></div>
+    </div>
+  );
+};
