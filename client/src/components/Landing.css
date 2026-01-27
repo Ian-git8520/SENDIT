@@ -126,3 +126,9 @@
   background: #3efc25;
   color: white;
 }
+
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(243, 242, 238, 0.3);
+}
