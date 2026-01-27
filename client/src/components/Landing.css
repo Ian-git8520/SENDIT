@@ -114,3 +114,9 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+.btn-getstarted {
+  background: #ad0622;
+  color: rgb(22, 7, 7);
+}
