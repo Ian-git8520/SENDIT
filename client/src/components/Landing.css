@@ -26,3 +26,13 @@
   left: 15%;
   animation-delay: 0s;
 }
+
+
+.shape2 {
+  width: 80px;
+  height: 80px;
+  background: #ffeb3b;
+  top: 70%;
+  left: 60%;
+  animation-delay: 2s;
+}
