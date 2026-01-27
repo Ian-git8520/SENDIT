@@ -50,3 +50,63 @@ const FloatingPackage = ({ className = "" }: { className?: string }) => (
     <path d="M15 5 L20 2 L25 5" stroke="currentColor" opacity="0.15" strokeWidth="1.5" fill="none" />
   </svg>
 )
+
+
+export function BackgroundVehicles() {
+  const vehicles = [
+    // Top area
+    { Component: DeliveryVan, x: '5%', y: '15%', size: 'w-24', delay: 0, direction: 'right' },
+    { Component: DeliveryTruck, x: '85%', y: '20%', size: 'w-32', delay: 1.5, direction: 'left' },
+    { Component: DeliveryCar, x: '15%', y: '35%', size: 'w-16', delay: 0.8, direction: 'right' },
+    
+    // Middle area
+    { Component: FloatingPackage, x: '92%', y: '45%', size: 'w-10', delay: 2, direction: 'float' },
+    { Component: DeliveryScooter, x: '8%', y: '55%', size: 'w-14', delay: 1.2, direction: 'right' },
+    { Component: DeliveryVan, x: '88%', y: '60%', size: 'w-20', delay: 0.5, direction: 'left' },
+    
+    // Bottom area
+    { Component: FloatingPackage, x: '3%', y: '70%', size: 'w-8', delay: 1.8, direction: 'float' },
+    { Component: DeliveryTruck, x: '10%', y: '85%', size: 'w-28', delay: 2.5, direction: 'right' },
+    { Component: DeliveryCar, x: '90%', y: '80%', size: 'w-18', delay: 0.3, direction: 'left' },
+    { Component: DeliveryScooter, x: '75%', y: '92%', size: 'w-12', delay: 1, direction: 'left' },
+  ]
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {vehicles.map((vehicle, index) => {
+        const isFloating = vehicle.direction === 'float'
+        const isMovingRight = vehicle.direction === 'right'
+        
+        return (
+          <motion.div
+            key={index}
+            className={`absolute text-sendit-orange ${vehicle.size}`}
+            style={{ 
+              left: vehicle.x, 
+              top: vehicle.y,
+              transform: isMovingRight ? 'scaleX(1)' : 'scaleX(-1)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={isFloating ? {
+              opacity: [0.3, 0.6, 0.3],
+              y: [0, -15, 0],
+              rotate: [0, 5, -5, 0],
+            } : {
+              opacity: [0.2, 0.5, 0.2],
+              x: isMovingRight ? [0, 30, 0] : [0, -30, 0],
+              y: [0, -5, 0],
+            }}
+            transition={{
+              duration: isFloating ? 4 : 8,
+              repeat: Infinity,
+              delay: vehicle.delay,
+              ease: "easeInOut",
+            }}
+          >
+            <vehicle.Component className="w-full h-full" />
+          </motion.div>
+        )
+      })}
+    </div>
+  )
+}
