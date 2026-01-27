@@ -13,3 +13,14 @@ const Landing = () => {
         <p className="animated-text delay1">
           Fast, reliable, and simple courier service at your fingertips.
         </p>
+
+
+         <div className="landing-buttons">
+          <Link to="/signup" className="btn float-hover">
+            Get Started
+          </Link>
+          <Link to="/login" className="btn btn-outline float-hover">
+            Login
+          </Link>
+        </div>
+      </div>
