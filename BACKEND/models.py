@@ -1,26 +1,27 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import declarative_base, relationship
+from datetime import datetime
 
 Base = declarative_base()
 
 
 class UserRole(Base):
-    __tablename__ = 'user_roles'
+    __tablename__ = "user_roles"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    
-    # Relationship
+    name = Column(String, nullable=False) # 'admin' or 'customer'
+
+    # Relationships
     users = relationship("User", back_populates="role")
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String)
-    phone_number = Column(Integer)
-    password = Column(String)
-    role_id = Column(Integer, ForeignKey('user_roles.id'))
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    phone_number = Column(String, nullable=True)
+    password = Column(String, nullable=False)
+    role_id = Column(Integer, ForeignKey("user_roles.id"))
 
     # Relationships
     role = relationship("UserRole", back_populates="users")
@@ -28,41 +29,48 @@ class User(Base):
 
 
 class Rider(Base):
-    __tablename__ = 'rider'
+    __tablename__ = "riders"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    phone_number = Column(Integer)
-    
-    # Relationship
+    name = Column(String, nullable=False)
+    phone_number = Column(String, nullable=True)
+
+    # Relationships
     deliveries = relationship("Delivery", back_populates="rider")
 
 
 class PriceIndex(Base):
-    __tablename__ = 'price_index'
+    __tablename__ = "price_index"
     id = Column(Integer, primary_key=True)
-    price_per_km = Column(Integer)
-    price_per_kg = Column(Integer)
-    price_per_cm = Column(Integer)
-    
-    # Relationship
+    price_per_km = Column(Integer, nullable=False)
+    price_per_kg = Column(Integer, nullable=False)
+    price_per_cm = Column(Integer, nullable=False)
+
+    # Relationships
     deliveries = relationship("Delivery", back_populates="price_index")
 
 
 class Delivery(Base):
-    __tablename__ = 'delivery'
-    
+    __tablename__ = "deliveries"
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    price_index_id = Column(Integer, ForeignKey('price_index.id'))
-    distance = Column(Float)
-    weight = Column(Float)
-    size = Column(Float)
-    pickup_location = Column(String)
-    drop_off_location = Column(String)
-    status = Column(String)
-    canceled_by = Column(String)
-    rider_id = Column(Integer, ForeignKey('rider.id'))
-    
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    rider_id = Column(Integer, ForeignKey("riders.id"), nullable=True)
+    price_index_id = Column(Integer, ForeignKey("price_index.id"), nullable=False)
+
+    distance = Column(Float, nullable=False)
+    weight = Column(Float, nullable=False)
+    size = Column(Float, nullable=False)
+
+    pickup_location = Column(String, nullable=False)
+    drop_off_location = Column(String, nullable=False)
+    pickup_latitude = Column(Float, nullable=True)
+    pickup_longitude = Column(Float, nullable=True)
+    destination_latitude = Column(Float, nullable=True)
+    destination_longitude = Column(Float, nullable=True)
+
+    status = Column(String, nullable=False, default="pending")  # pending | accepted | in_transit | delivered | cancelled
+    canceled_by = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
     # Relationships
     user = relationship("User", back_populates="deliveries")
     rider = relationship("Rider", back_populates="deliveries")
