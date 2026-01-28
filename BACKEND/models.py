@@ -73,7 +73,8 @@ class Delivery(Base):
     pickup_longitude = Column(Float, nullable=True)
     destination_latitude = Column(Float, nullable=True)
     destination_longitude = Column(Float, nullable=True)
-
+    
+    total_price = Column(Float, nullable=False)
     status = Column(String, nullable=False, default="pending")  # pending | accepted | in_transit | delivered | cancelled
     canceled_by = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
