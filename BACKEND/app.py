@@ -69,6 +69,26 @@ def create_delivery():
 
     return jsonify({"message": "Delivery created"}), 201
 
+@app.route("/deliveries", methods=["GET"])
+def get_deliveries():
+    session = SessionLocal()
+    deliveries = session.query(Delivery).all()
+
+    result = []
+    for d in deliveries:
+        result.append({
+            "id": d.id,
+            "user_id": d.user_id,
+            "pickup_location": d.pickup_location,
+            "drop_off_location": d.drop_off_location,
+            "distance": d.distance,
+            "weight": d.weight,
+            "size": d.size,
+            "status": d.status
+        })
+
+    session.close()
+    return jsonify(result), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
