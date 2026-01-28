@@ -1,127 +1,182 @@
+/* ==================================================
+   Login Page Styles
+   - Full-page animated background
+   - Floating shapes
+   - Centered login form with animations
+   - Pulse login button and interactive inputs
+   ================================================== */
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(45deg, #4f46e5, #6366f1, #a78bfa, #8b5cf6, #ec4899);
-  background-size: 400% 400%;
-  animation: gradientBG 20s ease infinite;
-  color: #1f2937;
-  min-height: 100vh;
-  transition: background 0.5s ease;
-}
-
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-button {
-  background-color: #4f46e5;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-button:hover {
-  background-color: #6366f1;
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-button:active {
-  transform: translateY(0) scale(0.98);
-}
-
-a {
-  color: #4f46e5;
-  text-decoration: none;
+/* --- Full Page Container --- */
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  transition: color 0.3s ease;
+  overflow: hidden;
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
-a::after {
-  content: '';
+/* --- Floating Animated Shapes --- */
+.shape {
   position: absolute;
-  width: 0;
-  height: 2px;
-  display: block;
-  margin-top: 5px;
-  right: 0;
-  background: #4f46e5;
-  transition: width 0.3s ease;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: float 6s ease-in-out infinite;
 }
 
-a:hover {
-  color: #6366f1;
+.shape1 {
+  width: 100px;
+  height: 100px;
+  background: #ff6a00;
+  top: 15%;
+  left: 20%;
+  animation-delay: 0s;
 }
 
-a:hover::after {
-  width: 100%;
-  left: 0;
-  background: #6366f1;
+.shape2 {
+  width: 80px;
+  height: 80px;
+  background: #ffeb3b;
+  top: 60%;
+  left: 65%;
+  animation-delay: 2s;
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 15px;
-  padding: 20px;
-  margin: 15px 0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.shape3 {
+  width: 120px;
+  height: 120px;
+  background: #00e5ff;
+  top: 40%;
+  left: 80%;
+  animation-delay: 4s;
+}
+
+/* --- Floating Animation --- */
+@keyframes float {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(-20px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* --- Login Form Container --- */
+.login-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 40px 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+  animation: fadeIn 2s ease forwards;
+}
+
+/* --- Fade In Animation --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Login Title & Subtitle --- */
+.login-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #fff;
+  animation: bounce 2s infinite alternate;
+}
+
+.login-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #f0f0f0;
+}
+
+/* --- Bounce Animation for Title --- */
+@keyframes bounce {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+/* --- Login Form Styling --- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form input {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form input:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(255,255,255,0.5);
+}
+
+/* --- Login Button --- */
+.btn-login {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: #3efc25;
+  color: #000;
+  text-shadow: 0 0 5px #fff;
+  animation: pulse 2s infinite;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  background: rgba(255, 255, 255, 1);
+.btn-login:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+  background: #2edb1a;
 }
 
-input, select, textarea {
-  padding: 10px 15px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  width: 100%;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+/* --- Pulse Animation for Button --- */
+@keyframes pulse {
+  0%   { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  50%  { transform: scale(1.05); box-shadow: 0 0 25px rgba(255,255,255,0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
 }
 
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+/* --- Signup Link Below Form --- */
+.signup-link {
+  margin-top: 20px;
+  font-size: 0.95rem;
 }
 
-h1, h2, h3, h4 {
-  color: #1f2937;
+.signup-link a {
+  color: #ff3c00;
+  font-weight: bold;
+  text-decoration: none;
   transition: color 0.3s ease;
 }
 
-h1:hover, h2:hover {
-  color: #4f46e5;
-  cursor: default;
+.signup-link a:hover {
+  color: #ffffff;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .login-content {
+    padding: 30px 25px;
+  }
 
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
-}
+  .login-title {
+    font-size: 2rem;
+  }
 
-.float-hover:hover {
-  animation: float 1s ease infinite;
+  .login-subtitle {
+    font-size: 1rem;
+  }
 }
