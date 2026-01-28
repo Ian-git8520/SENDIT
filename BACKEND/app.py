@@ -89,6 +89,23 @@ def get_deliveries():
 
     session.close()
     return jsonify(result), 200
+ @app.route("/deliveries/<int:delivery_id>", methods=["PATCH"])
+def update_delivery_status(delivery_id):
+    session = SessionLocal()
+    data = request.json
+
+    delivery = session.query(Delivery).filter(Delivery.id == delivery_id).first()
+
+    if not delivery:
+        session.close()
+        return jsonify({"error": "Delivery not found"}), 404
+
+    delivery.status = data.get("status", delivery.status)
+
+    session.commit()
+    session.close()
+
+    return jsonify({"message": "Delivery status updated"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
