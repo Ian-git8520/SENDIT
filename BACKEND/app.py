@@ -54,20 +54,36 @@ def create_delivery():
     session = SessionLocal()
     data = request.json
 
+    price_index = session.query(PriceIndex).first()
+
+    total_price = calculate_price(
+        distance=data["distance"],
+        weight=data["weight"],
+        size=data["size"],
+        price_index=price_index
+    )
+
     delivery = Delivery(
         user_id=data["user_id"],
         pickup_location=data["pickup_location"],
         drop_off_location=data["drop_off_location"],
-        distance=data.get("distance"),
-        weight=data.get("weight"),
-        size=data.get("size"),
+        distance=data["distance"],
+        weight=data["weight"],
+        size=data["size"],
+        price_index_id=price_index.id,
+        total_price=total_price,
+        status="pending"
     )
 
     session.add(delivery)
     session.commit()
     session.close()
 
-    return jsonify({"message": "Delivery created"}), 201
+    return jsonify({
+        "message": "Delivery created",
+        "total_price": total_price
+    }), 201
+
 
 @app.route("/deliveries", methods=["GET"])
 def get_deliveries():
@@ -89,7 +105,7 @@ def get_deliveries():
 
     session.close()
     return jsonify(result), 200
- @app.route("/deliveries/<int:delivery_id>", methods=["PATCH"])
+@app.route("/deliveries/<int:delivery_id>", methods=["PATCH"])
 def update_delivery_status(delivery_id):
     session = SessionLocal()
     data = request.json
