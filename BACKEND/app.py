@@ -107,5 +107,28 @@ def update_delivery_status(delivery_id):
 
     return jsonify({"message": "Delivery status updated"}), 200
 
+@app.route("/deliveries/<int:delivery_id>/cancel", methods=["PATCH"])
+def cancel_delivery(delivery_id):
+    session = SessionLocal()
+    data = request.json
+
+    delivery = session.query(Delivery).filter_by(id=delivery_id).first()
+
+    if not delivery:
+        session.close()
+        return jsonify({"error": "Delivery not found"}), 404
+
+    if delivery.status != "pending":
+        session.close()
+        return jsonify({"error": "Cannot cancel this delivery"}), 400
+
+    delivery.status = "canceled"
+    delivery.canceled_by = data.get("canceled_by", "user")
+
+    session.commit()
+    session.close()
+
+    return jsonify({"message": "Delivery canceled"}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
