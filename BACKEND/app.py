@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Base, User, UserRole, Delivery
+from services.pricing import calculate_price
+from models import Delivery, PriceIndex
+
 
 app = Flask(__name__)
 
@@ -55,6 +58,8 @@ def create_delivery():
     data = request.json
 
     price_index = session.query(PriceIndex).first()
+    if not price_index:
+        return jsonify({"error": "Price index not configured"}), 400
 
     total_price = calculate_price(
         distance=data["distance"],
@@ -65,14 +70,13 @@ def create_delivery():
 
     delivery = Delivery(
         user_id=data["user_id"],
-        pickup_location=data["pickup_location"],
-        drop_off_location=data["drop_off_location"],
+        price_index_id=price_index.id,
         distance=data["distance"],
         weight=data["weight"],
         size=data["size"],
-        price_index_id=price_index.id,
-        total_price=total_price,
-        status="pending"
+        pickup_location=data["pickup_location"],
+        drop_off_location=data["drop_off_location"],
+        total_price=total_price
     )
 
     session.add(delivery)
@@ -83,6 +87,7 @@ def create_delivery():
         "message": "Delivery created",
         "total_price": total_price
     }), 201
+
 
 
 @app.route("/deliveries", methods=["GET"])
