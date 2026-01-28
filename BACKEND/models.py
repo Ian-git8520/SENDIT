@@ -8,9 +8,11 @@ Base = declarative_base()
 class UserRole(Base):
     __tablename__ = "user_roles"
     id = Column(Integer, primary_key=True)
+
     name = Column(String, nullable=False) # 'admin' or 'customer'
 
     # Relationships
+
     users = relationship("User", back_populates="role")
 
 
@@ -23,7 +25,7 @@ class User(Base):
     password = Column(String, nullable=False)
     role_id = Column(Integer, ForeignKey("user_roles.id"))
 
-    # Relationships
+    
     role = relationship("UserRole", back_populates="users")
     deliveries = relationship("Delivery", back_populates="user")
 
@@ -31,27 +33,32 @@ class User(Base):
 class Rider(Base):
     __tablename__ = "riders"
     id = Column(Integer, primary_key=True)
+
     name = Column(String, nullable=False)
     phone_number = Column(String, nullable=True)
 
     # Relationships
+
     deliveries = relationship("Delivery", back_populates="rider")
 
 
 class PriceIndex(Base):
     __tablename__ = "price_index"
     id = Column(Integer, primary_key=True)
+
     price_per_km = Column(Integer, nullable=False)
     price_per_kg = Column(Integer, nullable=False)
     price_per_cm = Column(Integer, nullable=False)
 
     # Relationships
+
     deliveries = relationship("Delivery", back_populates="price_index")
 
 
 class Delivery(Base):
     __tablename__ = "deliveries"
     id = Column(Integer, primary_key=True)
+
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     rider_id = Column(Integer, ForeignKey("riders.id"), nullable=True)
     price_index_id = Column(Integer, ForeignKey("price_index.id"), nullable=False)
@@ -72,6 +79,7 @@ class Delivery(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # Relationships
+
     user = relationship("User", back_populates="deliveries")
     rider = relationship("Rider", back_populates="deliveries")
     price_index = relationship("PriceIndex", back_populates="deliveries")
