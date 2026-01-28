@@ -9,7 +9,7 @@ class UserRole(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     
-    # Relationship
+   
     users = relationship("User", back_populates="role")
 
 
@@ -22,7 +22,7 @@ class User(Base):
     password = Column(String)
     role_id = Column(Integer, ForeignKey('user_roles.id'))
 
-    # Relationships
+    
     role = relationship("UserRole", back_populates="users")
     deliveries = relationship("Delivery", back_populates="user")
 
@@ -33,7 +33,7 @@ class Rider(Base):
     name = Column(String)
     phone_number = Column(Integer)
     
-    # Relationship
+    
     deliveries = relationship("Delivery", back_populates="rider")
 
 
@@ -44,7 +44,7 @@ class PriceIndex(Base):
     price_per_kg = Column(Integer)
     price_per_cm = Column(Integer)
     
-    # Relationship
+    
     deliveries = relationship("Delivery", back_populates="price_index")
 
 
@@ -63,7 +63,7 @@ class Delivery(Base):
     canceled_by = Column(String)
     rider_id = Column(Integer, ForeignKey('rider.id'))
     
-    # Relationships
+
     user = relationship("User", back_populates="deliveries")
     rider = relationship("Rider", back_populates="deliveries")
     price_index = relationship("PriceIndex", back_populates="deliveries")

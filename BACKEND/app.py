@@ -38,6 +38,16 @@ def create_user():
 
     return jsonify({"message": "User created"}), 201
 
+@app.route("/users", methods=["GET"])
+def get_users():
+    session = SessionLocal()
+    users = session.query(User).all()
+    result = [
+        {"id": u.id, "name": u.name, "email": u.email, "phone_number": u.phone_number, "role_id": u.role_id}
+        for u in users
+    ]
+    session.close()
+    return jsonify(result)
 
 @app.route("/deliveries", methods=["POST"])
 def create_delivery():
